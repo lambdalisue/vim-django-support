@@ -26,11 +26,25 @@ def find_django_settings_module(root):
     root = os.path.dirname(root)
     if root not in sys.path:
         sys.path.insert(0, root)
+    if root not in os.environ.get('PYTHONPATH'):
+        os.environ['PYTHONPATH'] = u":".join((os.environ.get('PYTHONPATH'), root))
     return "%s.settings" % project_name
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
-    # use mock settings
-    mock = os.path.join(scriptroot, r'lib/vim_django_support_mock_project')
-    settings = find_django_settings_module(mock)
+    # try to find settings.py
+    settings = None
+    if os.path.exists('settings.py'):
+        settings = find_django_settings_module('')
+    elif os.path.exists(u'src'):
+        files = os.listdir(u'src')
+        for file in files:
+            file = os.path.join('src', file)
+            if os.path.exists(os.path.join(file, 'settings.py')):
+                settings = find_django_settings_module(file)
+                break
+    if not settings:
+        # use mock settings
+        mock = os.path.join(scriptroot, r'lib/vim_django_support_mock_project')
+        settings = find_django_settings_module(mock)
     os.environ['DJANGO_SETTINGS_MODULE'] = settings
     # Now try to load django.db. Without this code, pythoncomplete doesn't work correctly
     try:

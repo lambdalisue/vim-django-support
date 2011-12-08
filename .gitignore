@@ -1,0 +1,2 @@
+*.py[co]
+/ftplugin/python/lib/**/*.db

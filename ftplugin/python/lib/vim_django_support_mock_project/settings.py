@@ -7,7 +7,12 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = []
 MANAGERS = ADMINS
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(ROOT, 'temp.db'),
+    },
+}
 TIME_ZONE = ''
 LANGUAGE_CODE = ''
 SITE_ID = 1
