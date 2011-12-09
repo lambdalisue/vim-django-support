@@ -24,10 +24,15 @@ def find_django_settings_module(root):
     root = os.path.abspath(root)
     project_name = os.path.basename(root)
     root = os.path.dirname(root)
+    # Add path to current sys.path
     if root not in sys.path:
         sys.path.insert(0, root)
-    if root not in os.environ.get('PYTHONPATH'):
-        os.environ['PYTHONPATH'] = u":".join((os.environ.get('PYTHONPATH'), root))
+    # Enable to execute external command or make
+    if 'PYTHONPATH' in os.environ:
+        if root not in os.environ['PYTHONPATH']:
+            os.environ['PYTHONPATH'] = u"%s:%s" % (os.environ['PYTHONPATH'], root)
+    else
+        os.environ['PYTHONPATH'] = root
     return "%s.settings" % project_name
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     # try to find settings.py
@@ -48,8 +53,7 @@ if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = settings
     # Now try to load django.db. Without this code, pythoncomplete doesn't work correctly
     try:
-        from django import db
-        db = None
+        import django.db
     except ImportError:
         pass
 EOF
