@@ -31,7 +31,7 @@ def find_django_settings_module(root):
     if 'PYTHONPATH' in os.environ:
         if root not in os.environ['PYTHONPATH']:
             os.environ['PYTHONPATH'] = u"%s:%s" % (os.environ['PYTHONPATH'], root)
-    else
+    else:
         os.environ['PYTHONPATH'] = root
     return "%s.settings" % project_name
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
