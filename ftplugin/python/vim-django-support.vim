@@ -14,6 +14,7 @@ endif
 py << EOF
 import os
 import sys
+import vim
 
 if sys.version_info[:2] < (2, 5):
     raise AssertionError('Vim must be compiled with Python 2.5 or higher; you have ' + sys.version)
