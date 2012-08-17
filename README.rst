@@ -1,7 +1,7 @@
 **************************************************
  Vim django support plugin
 **************************************************
-:VERSION: 0.1-rc3
+:VERSION: 0.2.0
 
 This plugin helps you to set DJANGO_SETTINGS_MODULE automatically.
 That mean your `pythoncomplete <http://www.vim.org/scripts/script.php?script_id=1542>`_ now support Django omni completion. Your `nose.vim <https://github.com/lambdalisue/nose.vim>`_ now support Django unittest.

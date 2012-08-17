@@ -21,9 +21,8 @@ USE_L10N = True
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 STATIC_ROOT = ''
-SECRET_KEY = ''
+SECRET_KEY = 'this value cannnot be empty from django 1.4'
 STATIC_URL = ''
-ADMIN_MEDIA_PREFIX = ''
 STATICFILES_DIRS = []
 STATICFILES_FINDERS = []
 TEMPLATE_LOADERS = []
@@ -32,3 +31,7 @@ TEMPLATE_CONTEXT_PROCESSORS = []
 ROOT_URLCONF = ''
 TEMPLATE_DIRS = []
 INSTALLED_APPS = []
+
+import django
+if django.VERSION < (1, 4, 1):
+    ADMIN_MEDIA_PREFIX = ''
