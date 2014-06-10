@@ -21,12 +21,16 @@ do omni completions.
 
 Install
 ---------------------
-I recommend you to use some package manager such as [neobundle][] or [vundle][]
-The following is an example in [neobundle][]
+I recommend you to use some package manager such as [neobundle.vim][] or
+[Vundle.vim][].
+The following is an example in [neobundle.vim][]
 
 ```vim
 NeoBundle 'lambdalisue/vim-django-support'
 ```
+
+[neobundle.vim]: https://github.com/Shougo/neobundle.vim
+[Vundle.vim]: https://github.com/gmarik/Vundle.vim
 
 Requirements
 ---------------------
