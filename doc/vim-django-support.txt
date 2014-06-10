@@ -1,0 +1,161 @@
+*vim-django-support.txt* Enable django module loading in Vim
+
+Version: 1.0
+Author:  Alisue <lambdalisue@hashnote.net>          *vim-django-support-author*
+License: MIT license  {{{
+    Copyright (c) 2014 Alisue, hashnote.net
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+}}}
+  
+
+CONTENTS                                          *vim-django-support-contents*  
+
+Introduction                    |vim-django-support-introduction|
+Usage                           |vim-django-support-usage|
+Requirements                    |vim-django-support-requirements|
+Interface                       |vim-django-support-interface|
+    Configurations                  |vim-django-support-configurations|
+    Commands                        |vim-django-support-commands|
+    Functions                       |vim-django-support-functions|
+
+
+===============================================================================
+INTRODUCTION                                  *vim-django-support-introduction*
+
+As many of you know, django use an environment variable call
+`DJANGO_SETTINGS_MODULE` to determine the settings like which database system
+should django use.
+
+While django use the environment variable in module definition level, some of
+django modules could not be loaded without the correct value.
+This is quite annoying and Vim omnicompletion system like pythoncomplete
+could not parse the djanog module, and thus often the omni completion of django
+is not available in Vim.
+
+*vim-django-support* automatically find the `settings` module from the current
+working directory and apply that to `DJANGO_SETTINGS_MODULE`.
+This makes Vim internal python allows to load django modules, and allows to
+do omni completions.
+
+
+===============================================================================
+USAGE                                                *vim-django-support-usage*
+
+With default settings, vim-django-support try to find the `settings` module
+in a directory tree from the current directory (the current directory and its
+sub directories) everytime you open a file which file type is 'python' or
+'htmldjango'.
+If you prefer to use a different directory rather than the current directory,
+you can specify the directory with `g:django_support#project_root` or
+`b:django_support#project_root`.
+If you don't want vim-django-support to find the `settings` module everytime
+when you open the pytyon file, specify `0` to 
+`g:django_support#auto_activate_on_filetype`, and if you don't want
+vim-django-support to activate in vim starting, specify `0` to
+`g:django_support#auto_activate`.
+
+===============================================================================
+Requirements                                  *vim-django-support-requirements*
+
+vim-django-support use pure vim script to find the `settings` module thus what
+you need to do is just install it. It has no dependencies.
+
+===============================================================================
+INTERFACE                                        *vim-django-support-interface*
+
+-------------------------------------------------------------------------------
+COMMANDS                                          *vim-django-support-commands*
+
+
+:DjangoSupportActivate                                 *:DjangoSupportActivate*
+    Activate django support.
+    It call |django_support#activate()| internally.
+
+:django-supportDeactivate                            *:DjangoSupportDeactivate*
+    Deactivate django support.
+    It call |django_support#deactivate()| internally.
+
+
+-------------------------------------------------------------------------------
+FUNCTIONS                                        *vim-django-support-functions*
+
+django_support#get_project_root()             *django_support#get_project_root*
+    Return project root directory used as a beginning directory of settings
+    module finding.
+    It is return the value of |b:django_support#project_root|,
+    |g:django_support#project_root|, or |getcwd|.
+
+django_support#get_settings_module()       *django_support#get_settings_module*
+    Find a settings module and return the path of settings module found.
+
+django_support#statusline()                         *django_support#statusline*
+    Return current settings module name in 'project.settings' format.
+    Useful for using in statusline 
+
+django_support#activate(verbose)                      *django_support#activate*
+    Activate django support.
+    It will add project parent directory to `PYTHONPATH` and the settings
+    module name in `DJANGO_SETTINGS_MODULE` of environment variables.
+
+django_support#deactivate(verbose)                  *django_support#deactivate*
+    Deactivate django support.
+    It will remove project parent directory to `PYTHONPATH` and the settings
+    module name in `DJANGO_SETTINGS_MODULE` of environment variables.
+
+
+-------------------------------------------------------------------------------
+CONFIGURATION                                *vim-django-support-configuration*
+
+g:django_support#auto_activate                 *g:django_support#auto_activate*
+    Activate django support on vim starting.
+
+    Default to 1.
+
+                                     *django_support#auto_activate_on_filetype* 
+g:django_support#auto_activate_on_filetype   
+    Activate django support on every times when a file which filetype is
+    'python' or 'htmldjango' is opend.
+
+    Default to 1.
+
+g:django_support#verbose                             *g:django_support#verbose*
+    Display a message when user call activate/deactivate function manually.
+
+    Default to 1.
+
+g:django_support#settings_module_name   *g:django_support#settings_module_name*
+    A name of settings module without file extension.
+    Usually you don't need to change this value.
+
+    Default to 'settings'
+
+g:django_support#project_root                   *g:django_support#project_root*
+    If you want to specify the project root direcotry, use this variable.
+    If this value is not empty, vim-django-support prefer to use this value
+    rather than |getcwd|.
+
+    Default to ''
+
+b:django_support#project_root                   *b:django_support#project_root*
+    If you want to specify the project root direcotry, use this variable.
+    If this value is not empty, vim-django-support prefer to use this value
+    rather than |g:django_support#project_root|.
+
+    Default to ''

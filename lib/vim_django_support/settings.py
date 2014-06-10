@@ -1,18 +1,19 @@
-# vim: set fileencoding=utf8:
-#
-# Mock of django settings
-import os
-ROOT=os.path.dirname(os.path.abspath(__file__))
+# A minimamal settings module of vim-django-support
+import tempfile
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
 ADMINS = []
 MANAGERS = ADMINS
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(ROOT, 'temp.db'),
+        'NAME': tempfile.mkstemp()[1],
     },
 }
+
 TIME_ZONE = ''
 LANGUAGE_CODE = ''
 SITE_ID = 1
